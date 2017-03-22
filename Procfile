@@ -1,1 +1,1 @@
-web: python3 conv_handler.py
+web: python conv_handler.py
