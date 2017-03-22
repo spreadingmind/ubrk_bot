@@ -58,8 +58,9 @@ def mass_assign_or_unassign():
             pass
 
 
-from_telegram_to_trello_ids = {'113973565':'57eb99e4b60861cf2ff79fe0', '239663592':'5779714c645ba31bc35f3f4c',
-                               '57148692':'549a9856edb25f0551b035d4', '47303188':'5826d8dc749b784306173e93'}
+from_telegram_to_trello_ids = {'113973565':'57eb99e4b60861cf2ff79fe0', '239663592':'5786a9bfac32d311f28ea467',
+                               '57148692':'549a9856edb25f0551b035d4', '47303188':'5826d8dc749b784306173e93',
+                               '185962649':'5779714c645ba31bc35f3f4c'}
 
 
 def assigne_from_telegram(card_name, id):
