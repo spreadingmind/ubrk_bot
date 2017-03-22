@@ -1,7 +1,6 @@
 from trello import TrelloClient, Board, ResourceUnavailable
 from trello.member import Member
 import constants
-from pprint import pprint
 from emoji import emojize
 import take_duty_keyboard
 
