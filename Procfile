@@ -1,1 +1,1 @@
-web: python conv_handler.py
+worker: python conv_handler.py
