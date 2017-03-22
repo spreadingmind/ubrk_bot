@@ -1,1 +1,1 @@
-web: python main_beta.py -p $PORT
+web: python conv_handler.py -p $PORT
