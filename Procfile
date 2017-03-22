@@ -1,1 +1,1 @@
-worker: python conv_handler.py
+bot: python conv_handler.py
