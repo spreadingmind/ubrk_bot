@@ -1,1 +1,1 @@
-web: python conv_handler.py -p $PORT
+web: gunicorn conv_handler.py :app
