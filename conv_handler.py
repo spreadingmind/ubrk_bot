@@ -129,5 +129,5 @@ def restart(bot, update):
 updater.dispatcher.add_handler(CommandHandler('r', restart))
 
 updater.start_webhook(listen='0.0.0.0', port=PORT, url_path=TELEGRAM_HTTP_API_TOKEN)
-updater.bot.setWebhook('https://goan-atm-bot.herokuapp.com/' + TELEGRAM_HTTP_API_TOKEN)
+updater.bot.setWebhook('https://ubrk.herokuapp.com/' + TELEGRAM_HTTP_API_TOKEN)
 updater.idle()
