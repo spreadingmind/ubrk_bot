@@ -10,7 +10,7 @@ import time
 import sys
 
 TELEGRAM_HTTP_API_TOKEN = constants.bot_token
-#PORT = int(os.environ.get('PORT', '5000'))
+PORT = int(os.environ.get('PORT', '5000'))
 FIRST, SECOND, THIRD, FORTH = range(4)
 
 
@@ -128,7 +128,6 @@ def restart(bot, update):
 
 updater.dispatcher.add_handler(CommandHandler('r', restart))
 
-# updater.start_webhook(listen='0.0.0.0', port=PORT, url_path=TELEGRAM_HTTP_API_TOKEN)
-# updater.bot.setWebhook('https://goan-atm-bot.herokuapp.com/' + TELEGRAM_HTTP_API_TOKEN)
-updater.start_polling()
+updater.start_webhook(listen='0.0.0.0', port=PORT, url_path=TELEGRAM_HTTP_API_TOKEN)
+updater.bot.setWebhook('https://goan-atm-bot.herokuapp.com/' + TELEGRAM_HTTP_API_TOKEN)
 updater.idle()
