@@ -1,1 +1,1 @@
-web: gunicorn conv_handler.py :app
+web: python conv_handler.py
