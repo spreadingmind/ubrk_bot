@@ -1,7 +1,6 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, User
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, ConversationHandler
 import constants
-import logging
 import api_trello
 from emoji import emojize
 import take_duty_keyboard
@@ -9,12 +8,18 @@ import os
 import time
 import sys
 
+import logging
+logger = logging.getLogger('ubrk_bot')
+logger.setLevel(logging.WARNING)
+
+
 TELEGRAM_HTTP_API_TOKEN = constants.bot_token
 PORT = int(os.environ.get('PORT', '5000'))
 FIRST, SECOND, THIRD, FORTH = range(4)
 
 
 def start(bot, update):
+    logger.info("ubrk bot started")
     text = emojize('        :recycle:  UBRK  :mushroom:  UPRK ', use_aliases=True)
     keyboard = [
         [InlineKeyboardButton(text, callback_data=str(FIRST))],
@@ -33,6 +38,7 @@ def start(bot, update):
 
 
 def first(bot, update):
+    logger.debug("responding to request of some user")
     query = update.callback_query
     keyboard = [
         [InlineKeyboardButton(u"Week duties", callback_data=str(SECOND))],
@@ -51,6 +57,7 @@ def first(bot, update):
     return SECOND
 
 def take_duty(update, bot):
+    logger.debug("starting take_duty!")
     query = update.callback_query
     option = query.data
     reply_markup = InlineKeyboardMarkup(take_duty_keyboard.get_duty_keyboard())
