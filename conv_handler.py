@@ -17,6 +17,9 @@ TELEGRAM_HTTP_API_TOKEN = constants.bot_token
 PORT = int(os.environ.get('PORT', '5000'))
 FIRST, SECOND, THIRD, FORTH = range(4)
 
+import logging
+logger = logging.getLogger('ubrk_bot')
+logger.setLevel(logging.WARNING)
 
 def start(bot, update):
     logger.info("ubrk bot started")
