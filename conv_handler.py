@@ -139,7 +139,7 @@ def restart(bot, update):
     os.execl(sys.executable, sys.executable, *sys.argv)
 
 
-def mass_unassigne(bot, job):
+def mass_unassign(bot, update):
     format = "%a %b %d %H:%M:%S %Y"
 
     while True:
@@ -147,13 +147,13 @@ def mass_unassigne(bot, job):
         if today.startswith('Thu'):
             api_trello.mass_unassign()
             print ('unassigned')
-            bot.sendMessage(text='All tasks are unassigned!', chat_id=job.context )
+            bot.sendMessage(text='All tasks are unassigned!', chat_id=update.message.chat_id )
             break
         else:
             continue
 
 j = updater.job_queue
-job_minute = Job(callback=mass_unassigne, interval=0, days=(0,3))
+job_minute = Job(callback=mass_unassign, interval=0, days=(0,3))
 j.put(job_minute, next_t=0.0)
 
 
