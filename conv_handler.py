@@ -149,7 +149,7 @@ def mass_unassign(bot, update,job):
         else:
             continue
     j = updater.job_queue
-    job_minute = Job(callback=mass_unassign, interval=0, days=(0,), context=update.message.chat_id)
+    job_minute = Job(callback=mass_unassign, interval=0, days=(0,3), context=update.message.chat_id)
 
     j.put(job_minute, next_t=0.0)
 
