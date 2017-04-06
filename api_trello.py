@@ -43,7 +43,7 @@ def mass_unassign():
             assigned_cards[card.name] = card.member_id
 
         # take_duty_keyboard.get_duty_keyboard()
-
+        return take_duty_keyboard.get_keyboard_list()
     except ResourceUnavailable:
         pass
 
