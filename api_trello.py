@@ -38,8 +38,8 @@ def mass_unassign():
             if len(card.member_id) > 0:
                 for member in card.member_id:
                     card.unassign(member_id=member)
-                    print ('from mass_unassigne: Done')
-            assigned_cards[card.name] = 'Free'
+                    print ('from mass_unassign: Done')
+        take_duty_keyboard.get_duty_keyboard()
 
     except ResourceUnavailable:
         pass
