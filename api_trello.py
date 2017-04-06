@@ -11,22 +11,6 @@ client = TrelloClient(
     token_secret=constants.oauth_token_secret
 )
 
-#avaliable methods:
-# from pprint import pprint as pp
-# pp(dir(client))
-
-#get list of my Boards
-# my_boards = {}
-# for board in client.list_boards(board_filter='all'):
-#     my_boards[board] = board.id
-#
-# def print_all_boards():
-#     for board in my_boards:
-#         print (board, my_boards[board])
-# print_all_boards()
-
-
-
 
 ubrk_list = client.get_board(board_id='58c675660114d45a75eb1ce4').get_list(list_id='58c6759a1985cf9264cc200e').list_cards()
 
@@ -47,14 +31,15 @@ print (name_ids)
 assigned_cards = { card.name :"Илон Маск" if not card.member_id
                                 else name_ids[card.member_id[0]] for card in ubrk_list}
 
-def mass_assign_or_unassign():
-    for card in ubrk_list:
-        try:
-            card_id = card.id
-            new_card = client.get_card(card_id=card_id)
-            new_card.unassign(member_id='57eb99e4b60861cf2ff79fe0')
-        except ResourceUnavailable:
-            pass
+def mass_unassign():
+    try:
+        for card in ubrk_list:
+            if len(card.member_id) > 0:
+                for member in card.member_id:
+                    card.unassign(member_id=member)
+
+    except ResourceUnavailable:
+        pass
 
 
 from_telegram_to_trello_ids = {'113973565':'57eb99e4b60861cf2ff79fe0', '239663592':'5786a9bfac32d311f28ea467',
