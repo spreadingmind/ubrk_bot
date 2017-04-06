@@ -122,7 +122,7 @@ def fifth(bot,update,job):
         if today.startswith('Thu'):
             api_trello.mass_unassign()
             print ('unassigned')
-            bot.sendMessage(text='All tasks are unassigned!', chat_id=update.message.chat_id )
+            # bot.sendMessage(text='All tasks are unassigned!', chat_id=update.message.chat_id )
             break
         else:
             continue
