@@ -39,7 +39,10 @@ def mass_unassign():
                 for member in card.member_id:
                     card.unassign(member_id=member)
                     print ('from mass_unassign: Done')
-        take_duty_keyboard.get_duty_keyboard()
+        #как обновить мемберов карточек?
+            assigned_cards[card.name] = card.member_id
+
+        # take_duty_keyboard.get_duty_keyboard()
 
     except ResourceUnavailable:
         pass
