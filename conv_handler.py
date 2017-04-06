@@ -17,7 +17,7 @@ logger.setLevel(logging.WARNING)
 
 TELEGRAM_HTTP_API_TOKEN = constants.bot_token
 PORT = int(os.environ.get('PORT', '5000'))
-FIRST, SECOND, THIRD, FORTH = range(4)
+FIRST, SECOND, THIRD, FORTH, FIFTH = range(5)
 
 import logging
 logger = logging.getLogger('ubrk_bot')
@@ -36,7 +36,7 @@ def start(bot, update):
         reply_markup=reply_markup
     )
     telegram_id = update.message.from_user.id
-    return FIRST
+    return FIRST, FIFTH
 
 
 def first(bot, update):
@@ -108,11 +108,29 @@ def third(bot,update):
 
     return FIRST
 
-def forth(bot, update): #here would be issues
+def forth(bot, update):
     query = update.callback_query
 
     text = 'Coming soon...'
     bot.sendMessage(chat_id=query.message.chat.id, text=text)
+
+def fifth(bot,update,job):
+    format = "%a %b %d %H:%M:%S %Y"
+
+    while True:
+        today = datetime.datetime.today().strftime(format)
+        if today.startswith('Thu'):
+            api_trello.mass_unassign()
+            print ('unassigned')
+            bot.sendMessage(text='All tasks are unassigned!', chat_id=update.message.chat_id )
+            break
+        else:
+            continue
+    j = updater.job_queue
+    job_minute = Job(callback=fifth, interval=0, days=(0,3), context=update.message.chat_id)
+
+    j.put(job_minute, next_t=0.0)
+
 
 updater = Updater(TELEGRAM_HTTP_API_TOKEN)
 
@@ -122,7 +140,8 @@ conv_handler = ConversationHandler(
         FIRST: [CallbackQueryHandler(first)],
         SECOND: [CallbackQueryHandler(second)],
         THIRD: [CallbackQueryHandler(third)],
-        FORTH: [CallbackQueryHandler(forth)]
+        FORTH: [CallbackQueryHandler(forth)],
+        FIFTH: [CallbackQueryHandler(fifth, pass_job_queue=True)]
     },
     fallbacks=[CommandHandler('ubrk', start)]
 )
@@ -136,25 +155,25 @@ def restart(bot, update):
     os.execl(sys.executable, sys.executable, *sys.argv)
 
 
-def mass_unassign(bot, update,job):
-    format = "%a %b %d %H:%M:%S %Y"
-
-    while True:
-        today = datetime.datetime.today().strftime(format)
-        if today.startswith('Thu'):
-            api_trello.mass_unassign()
-            print ('unassigned')
-            bot.sendMessage(text='All tasks are unassigned!', chat_id=update.message.chat_id )
-            break
-        else:
-            continue
-    j = updater.job_queue
-    job_minute = Job(callback=mass_unassign, interval=0, days=(0,3), context=update.message.chat_id)
-
-    j.put(job_minute, next_t=0.0)
-
-timer_handler = CommandHandler('ubrk', mass_unassign, pass_job_queue=True)
-updater.dispatcher.add_handler(timer_handler)
+# def mass_unassign(bot, update,job):
+#     format = "%a %b %d %H:%M:%S %Y"
+#
+#     while True:
+#         today = datetime.datetime.today().strftime(format)
+#         if today.startswith('Thu'):
+#             api_trello.mass_unassign()
+#             print ('unassigned')
+#             bot.sendMessage(text='All tasks are unassigned!', chat_id=update.message.chat_id )
+#             break
+#         else:
+#             continue
+#     j = updater.job_queue
+#     job_minute = Job(callback=mass_unassign, interval=0, days=(0,3), context=update.message.chat_id)
+#
+#     j.put(job_minute, next_t=0.0)
+#
+# timer_handler = CommandHandler('ubrk', mass_unassign, pass_job_queue=True)
+# updater.dispatcher.add_handler(timer_handler)
 
 
 
