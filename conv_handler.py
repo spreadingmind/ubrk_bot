@@ -139,7 +139,7 @@ conv_handler = ConversationHandler(
         SECOND: [CallbackQueryHandler(second)],
         THIRD: [CallbackQueryHandler(third)],
         FORTH: [CallbackQueryHandler(forth)]
-        # FIFTH: [CallbackQueryHandler(fifth, pass_job_queue=True)]
+
     },
     fallbacks=[CommandHandler('ubrk', start)]
 )
@@ -155,27 +155,6 @@ def restart(bot, update):
     bot.sendMessage(update.message.chat_id, "Bot is restarting...Press /ubrk")
     time.sleep(0.2)
     os.execl(sys.executable, sys.executable, *sys.argv)
-
-
-# def mass_unassign(bot, update,job):
-#     format = "%a %b %d %H:%M:%S %Y"
-#
-#     while True:
-#         today = datetime.datetime.today().strftime(format)
-#         if today.startswith('Thu'):
-#             api_trello.mass_unassign()
-#             print ('unassigned')
-#             bot.sendMessage(text='All tasks are unassigned!', chat_id=update.message.chat_id )
-#             break
-#         else:
-#             continue
-#     j = updater.job_queue
-#     job_minute = Job(callback=mass_unassign, interval=0, days=(0,3), context=update.message.chat_id)
-#
-#     j.put(job_minute, next_t=0.0)
-#
-# timer_handler = CommandHandler('ubrk', mass_unassign, pass_job_queue=True)
-# updater.dispatcher.add_handler(timer_handler)
 
 
 
