@@ -153,7 +153,7 @@ def mass_unassigne(bot, job):
             continue
 
 j = updater.job_queue
-job_minute = Job(callback=mass_unassigne, interval=None, days=(0,3))
+job_minute = Job(callback=mass_unassigne, interval=0, days=(0,3))
 j.put(job_minute, next_t=0.0)
 
 
