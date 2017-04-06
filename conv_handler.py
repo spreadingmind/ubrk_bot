@@ -1,5 +1,6 @@
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, User
-from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, ConversationHandler
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, \
+    ConversationHandler, Job, JobQueue
 import constants
 import api_trello
 from emoji import emojize
@@ -7,7 +8,7 @@ import take_duty_keyboard
 import os
 import time
 import sys
-import unassign
+import datetime
 import logging
 
 logger = logging.getLogger('ubrk_bot')
@@ -137,6 +138,26 @@ def restart(bot, update):
     time.sleep(0.2)
     os.execl(sys.executable, sys.executable, *sys.argv)
 
+
+def mass_unassigne(bot, job):
+    format = "%a %b %d %H:%M:%S %Y"
+
+    while True:
+        today = datetime.datetime.today().strftime(format)
+        if today.startswith('Thu'):
+            api_trello.mass_unassign()
+            print ('unassigned')
+            bot.sendMessage(text='All tasks are unassigned!', chat_id=job.context )
+            break
+        else:
+            continue
+
+j = updater.job_queue
+job_minute = Job(callback=15)
+j.put(job_minute, next_t=0.0)
+
+
+
 logger.info("starting dispatcher")
 updater.dispatcher.add_handler(CommandHandler('r', restart))
 
@@ -144,3 +165,8 @@ updater.start_webhook(listen='0.0.0.0', port=PORT, url_path=TELEGRAM_HTTP_API_TO
 updater.bot.setWebhook('https://ubrk.herokuapp.com/' + TELEGRAM_HTTP_API_TOKEN)
 updater.idle()
 logger.info("updater set to idle")
+
+
+
+
+
