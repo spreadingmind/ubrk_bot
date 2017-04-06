@@ -32,11 +32,14 @@ assigned_cards = { card.name :"Илон Маск" if not card.member_id
                                 else name_ids[card.member_id[0]] for card in ubrk_list}
 
 def mass_unassign():
+
     try:
         for card in ubrk_list:
             if len(card.member_id) > 0:
                 for member in card.member_id:
                     card.unassign(member_id=member)
+                    print ('from mass_unassigne: Done')
+            assigned_cards[card.name] = 'Free'
 
     except ResourceUnavailable:
         pass
