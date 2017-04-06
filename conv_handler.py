@@ -114,7 +114,7 @@ def forth(bot, update):
     text = 'Coming soon...'
     bot.sendMessage(chat_id=query.message.chat.id, text=text)
 
-def unassign(bot,update,job):
+def unassign(bot,job):
     format = "%a %b %d %H:%M:%S %Y"
 
     while True:
