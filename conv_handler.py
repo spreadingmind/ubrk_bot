@@ -147,7 +147,7 @@ conv_handler = ConversationHandler(
 updater.dispatcher.add_handler(conv_handler)
 
 j = updater.job_queue
-job_minute = Job(callback=unassign, interval=0, days=(0,3))
+job_minute = Job(callback=unassign, interval=0, days=(0,))
 j.put(job_minute, next_t=0.0)
 
 
