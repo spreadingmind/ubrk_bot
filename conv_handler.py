@@ -36,7 +36,7 @@ def start(bot, update):
         reply_markup=reply_markup
     )
     telegram_id = update.message.from_user.id
-    return FIRST, FIFTH
+    return FIRST
 
 
 def first(bot, update):
@@ -114,11 +114,12 @@ def forth(bot, update):
     text = 'Coming soon...'
     bot.sendMessage(chat_id=query.message.chat.id, text=text)
 
-def fifth(bot,update,job):
+def unassign(bot,update,job):
     format = "%a %b %d %H:%M:%S %Y"
 
     while True:
         today = datetime.datetime.today().strftime(format)
+        print ('Today is ', today)
         if today.startswith('Thu'):
             api_trello.mass_unassign()
             print ('unassigned')
@@ -126,10 +127,7 @@ def fifth(bot,update,job):
             break
         else:
             continue
-    j = updater.job_queue
-    job_minute = Job(callback=fifth, interval=0, days=(0,3), context=update.message.chat_id)
 
-    j.put(job_minute, next_t=0.0)
 
 
 updater = Updater(TELEGRAM_HTTP_API_TOKEN)
@@ -140,13 +138,17 @@ conv_handler = ConversationHandler(
         FIRST: [CallbackQueryHandler(first)],
         SECOND: [CallbackQueryHandler(second)],
         THIRD: [CallbackQueryHandler(third)],
-        FORTH: [CallbackQueryHandler(forth)],
-        FIFTH: [CallbackQueryHandler(fifth, pass_job_queue=True)]
+        FORTH: [CallbackQueryHandler(forth)]
+        # FIFTH: [CallbackQueryHandler(fifth, pass_job_queue=True)]
     },
     fallbacks=[CommandHandler('ubrk', start)]
 )
 
 updater.dispatcher.add_handler(conv_handler)
+
+j = updater.job_queue
+job_minute = Job(callback=unassign, interval=0, days=(0,3))
+j.put(job_minute, next_t=0.0)
 
 
 def restart(bot, update):
