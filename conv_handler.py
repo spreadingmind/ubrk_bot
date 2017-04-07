@@ -129,9 +129,9 @@ def unassign(bot,job):
             continue
 
 
-def fri_reminder(bot,job):
+def fri_reminder(bot,job, update):
     bot.sendMessage(text='heya, it is almost weekends. Did you took your task?',
-                    chat_id=job.context)
+                    chat_id=update.message.chat_id)
 
 
 updater = Updater(TELEGRAM_HTTP_API_TOKEN)
@@ -154,10 +154,10 @@ j = updater.job_queue
 job_unassign = Job(callback=unassign, interval=0, days=(0,), repeat=True)
 j.put(job_unassign, next_t=0.0)
 
-update = Update(update_id=1)
+# update = Update(update_id=1)
 
 job_fri_reminder = Job(callback=fri_reminder, interval=100, repeat=True)
-j.put(fri_reminder, time=16, days=(4,), context=update.message.chat_id)
+j.put(fri_reminder, time=16, days=(4,), repeat=True)
 
 def restart(bot, update):
     bot.sendMessage(update.message.chat_id, "Bot is restarting...Press /ubrk")
