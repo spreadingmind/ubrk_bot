@@ -10,7 +10,6 @@ import time
 import sys
 import datetime
 import logging
-import telepot
 
 logger = logging.getLogger('ubrk_bot')
 logger.setLevel(logging.WARNING)
