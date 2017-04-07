@@ -1,4 +1,4 @@
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, Bot
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, \
     ConversationHandler, Job, JobQueue
 import constants
@@ -153,7 +153,8 @@ updater.dispatcher.add_handler(conv_handler)
 j = updater.job_queue
 job_unassign = Job(callback=unassign, interval=0, days=(0,), repeat=True)
 j.put(job_unassign, next_t=0.0)
-job_fri_reminder = JobQueue(prevent_autostart=None)
+bot = Bot(token=TELEGRAM_HTTP_API_TOKEN)
+job_fri_reminder = JobQueue(bot, prevent_autostart=None)
 
 update = Update(update_id=1)
 
