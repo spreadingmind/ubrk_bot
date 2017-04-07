@@ -153,13 +153,11 @@ updater.dispatcher.add_handler(conv_handler)
 j = updater.job_queue
 job_unassign = Job(callback=unassign, interval=0, days=(0,), repeat=True)
 j.put(job_unassign, next_t=0.0)
-bot = Bot(token=TELEGRAM_HTTP_API_TOKEN)
-job_fri_reminder = JobQueue(bot, prevent_autostart=None)
 
 update = Update(update_id=1)
 
+job_fri_reminder = Job(callback=fri_reminder, repeat=True)
 job_fri_reminder.run_daily(fri_reminder, time=16, days=(4,), context=update.message.chat_id)
-
 
 def restart(bot, update):
     bot.sendMessage(update.message.chat_id, "Bot is restarting...Press /ubrk")
