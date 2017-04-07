@@ -156,7 +156,7 @@ j.put(job_unassign, next_t=0.0)
 
 update = Update(update_id=1)
 
-job_fri_reminder = Job(callback=fri_reminder, repeat=True)
+job_fri_reminder = Job(callback=fri_reminder, interval=100, repeat=True)
 job_fri_reminder.run_daily(fri_reminder, time=16, days=(4,), context=update.message.chat_id)
 
 def restart(bot, update):
