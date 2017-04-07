@@ -131,7 +131,8 @@ def unassign(bot,job):
 
 def fri_reminder(bot, job):
     bot.sendMessage(text='heya, it is almost weekends. Did you took your task?',
-                    chat_id=1001092676323)
+                    chat_id='-1001092676323')
+
 
 
 updater = Updater(TELEGRAM_HTTP_API_TOKEN)
