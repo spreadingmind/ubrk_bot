@@ -108,7 +108,8 @@ def third(bot,update):
         text=text
     )
 
-    return FIRST
+
+    # return FIRST
 
 def forth(bot, update):
     query = update.callback_query
@@ -126,7 +127,7 @@ def sixth(bot, update):
 
     keyboard = [[InlineKeyboardButton(u"Back to menu", callback_data=str(FIRST))]]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    text = emojize(u"Cпасибо,что взял(а) на себя задачу! :kissing_heart: ")
+    text = emojize(u"Cпасибо,что взял(а) на себя задачу! :kissing_heart: ", use_aliases=True)
     bot.sendMessage(
         chat_id=query.message.chat_id,
         message_id=query.message.message_id,
