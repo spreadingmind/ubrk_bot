@@ -13,11 +13,8 @@ client = TrelloClient(
 
 
 ubrk_list = client.get_board(board_id='58c675660114d45a75eb1ce4').get_list(list_id='58c6759a1985cf9264cc200e').list_cards()
-
 ubrk_duties = {duty.name : 'Илон Маск' for duty in ubrk_list }
 
-
-print ()
 
 
 finger = emojize(':point_right: ', use_aliases=True)
