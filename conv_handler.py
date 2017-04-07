@@ -18,7 +18,7 @@ logger.setLevel(logging.WARNING)
 
 TELEGRAM_HTTP_API_TOKEN = constants.bot_token
 PORT = int(os.environ.get('PORT', '5000'))
-FIRST, SECOND, THIRD, FORTH, FIFTH = range(5)
+FIRST, SECOND, THIRD, FORTH, FIFTH, SIXTH = range(6)
 
 import logging
 logger = logging.getLogger('ubrk_bot')
@@ -98,17 +98,14 @@ def third(bot,update):
         api_trello.assigne_from_telegram(option, user_id)
     print ('from third:', option, api_trello.assigned_cards[option])
 
-
-
-
     keyboard = [[InlineKeyboardButton(u"Back to menu", callback_data=str(FIRST))]]
     reply_markup = InlineKeyboardMarkup(keyboard)
-
+    text = emojize(u"Cпасибо,что взял(а) на себя задачу! :kissing_heart: ")
     bot.sendMessage(
         chat_id=query.message.chat_id,
         message_id=query.message.message_id,
         reply_markup=reply_markup,
-        text=u"Cпасибо,что взял(а) на себя задачу!"
+        text=text
     )
 
     return FIRST
@@ -116,14 +113,34 @@ def third(bot,update):
 def forth(bot, update):
     query = update.callback_query
     reply_markup = InlineKeyboardMarkup(issues.get_issues_keyboard())
-    text = 'Issues! No code skills reqiured!'
+    text = emojize(':fire: Issues! No code reqiured :v: ', use_aliases=True)
     bot.sendMessage(chat_id=query.message.chat.id, text=text, reply_markup=reply_markup)
+    return SIXTH
 
+def sixth(bot, update):
+    query = update.callback_query
+    option = query.data
+    user_id = str(update.callback_query.from_user.id)
+    if option:
+        issues.assigne_issue_from_telegram(option, user_id)
+
+    keyboard = [[InlineKeyboardButton(u"Back to menu", callback_data=str(FIRST))]]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    text = emojize(u"Cпасибо,что взял(а) на себя задачу! :kissing_heart: ")
+    bot.sendMessage(
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id,
+        reply_markup=reply_markup,
+        text=text
+    )
+
+    return FIRST
 
 def open_trello(bot,update):
     query = update.callback_query
     bot.sendMessage(chat_id=query.message.chat_id, text='https://trello.com/b/jFPgFoqm/ubrk-is-fun',
                     parse_mode='HTML')
+
 
 def unassign(bot,job):
     format = "%a %b %d %H:%M:%S %Y"
@@ -143,12 +160,12 @@ def unassign(bot,job):
 def fri_reminder(bot, job):
     today = datetime.datetime.today().strftime("%a %b %d %H:%M:%S %Y")
     # if today.startswith('Fri'):
-    #     bot.sendMessage(text='Heya, it is almost weekends. Did you take your UBRK task? ;)',
-    #                 chat_id='-1001092676323')
+    #     text = emojize('Heya! It is almost weekends :eyes: Did you take your UBRK task? ;)', use_aliases=True)
+    #     bot.sendMessage(text=text, chat_id='-1001092676323')
 
     if today.startswith('Sun'):
-        bot.sendMessage(text='It is last day of the week to make our flat shiny. Rock this boat!',
-                        chat_id='-1001092676323')
+        text = emojize('It is last day of the week to make our flat shiny. Rock this boat! :sunglasses:',use_aliases=True)
+        bot.sendMessage(text=text,chat_id='-1001092676323')
 
 updater = Updater(TELEGRAM_HTTP_API_TOKEN)
 
@@ -159,7 +176,8 @@ conv_handler = ConversationHandler(
         SECOND: [CallbackQueryHandler(second)],
         THIRD: [CallbackQueryHandler(third)],
         FORTH: [CallbackQueryHandler(forth)],
-        FIFTH:[CallbackQueryHandler(open_trello)]
+        FIFTH:[CallbackQueryHandler(open_trello)],
+        SIXTH: [CallbackQueryHandler(sixth)]
 
     },
     fallbacks=[CommandHandler('ubrk', start)]
@@ -171,8 +189,6 @@ j = updater.job_queue
 job_unassign = Job(callback=unassign, interval=0, days=(0,), repeat=True)
 j.put(job_unassign, next_t=0.0)
 
-# update = Update(update_id=1)
-time = datetime.datetime.time(datetime.datetime.now())
 
 job_fri_reminder = Job(callback=fri_reminder, interval=5000, repeat=True, days=(4,6))
 
