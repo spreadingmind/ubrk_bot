@@ -44,7 +44,8 @@ def first(bot, update):
     query = update.callback_query
     keyboard = [
         [InlineKeyboardButton(u"Week duties", callback_data=str(SECOND))],
-        [InlineKeyboardButton(u'Issues', callback_data=str(FORTH))]
+        [InlineKeyboardButton(u'Issues', callback_data=str(FORTH))],
+        [InlineKeyboardButton(u'Go to Trello board', callback_data=str(FIFTH))]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -81,6 +82,7 @@ def second(bot, update):
 
     if option == '3':
         forth(bot,update)
+
     return
 
 def third(bot,update):
@@ -113,6 +115,9 @@ def forth(bot, update):
 
     text = 'Coming soon...'
     bot.sendMessage(chat_id=query.message.chat.id, text=text)
+
+def open_trello(bot,update):
+    pass
 
 def unassign(bot,job):
     format = "%a %b %d %H:%M:%S %Y"
@@ -147,7 +152,8 @@ conv_handler = ConversationHandler(
         FIRST: [CallbackQueryHandler(first)],
         SECOND: [CallbackQueryHandler(second)],
         THIRD: [CallbackQueryHandler(third)],
-        FORTH: [CallbackQueryHandler(forth)]
+        FORTH: [CallbackQueryHandler(forth)],
+        FIFTH:[CallbackQueryHandler(open_trello)]
 
     },
     fallbacks=[CommandHandler('ubrk', start)]
