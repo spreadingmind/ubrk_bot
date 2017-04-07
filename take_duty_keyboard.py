@@ -13,5 +13,5 @@ def get_duty_keyboard():
                     for item in get_keyboard_list()]
     return take_duty_keybrd
 
-keyboard_back = [[InlineKeyboardButton(" <<< ", callback_data='back')]]
+# keyboard_back = [[InlineKeyboardButton(" <<< ", callback_data='back')]]
 

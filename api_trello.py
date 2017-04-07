@@ -15,15 +15,9 @@ client = TrelloClient(
 ubrk_list = client.get_board(board_id='58c675660114d45a75eb1ce4').get_list(list_id='58c6759a1985cf9264cc200e').list_cards()
 ubrk_duties = {duty.name : 'Илон Маск' for duty in ubrk_list }
 
-
-
-finger = emojize(':point_right: ', use_aliases=True)
-
-
 board_members = client.get_board(board_id='58c675660114d45a75eb1ce4').get_members()
 
 name_ids = {member.id:member.full_name for member in board_members}
-print (name_ids)
 
 assigned_cards = { card.name :"Илон Маск" if not card.member_id
                                 else name_ids[card.member_id[0]] for card in ubrk_list}

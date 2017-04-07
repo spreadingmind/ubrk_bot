@@ -10,6 +10,7 @@ import time
 import sys
 import datetime
 import logging
+import issues
 
 logger = logging.getLogger('ubrk_bot')
 logger.setLevel(logging.WARNING)
@@ -114,9 +115,10 @@ def third(bot,update):
 
 def forth(bot, update):
     query = update.callback_query
+    reply_markup = InlineKeyboardMarkup(issues.get_issues_keyboard())
+    text = 'Issues! No code skills reqiured!'
+    bot.sendMessage(chat_id=query.message.chat.id, text=text, reply_markup=reply_markup)
 
-    text = 'Coming soon...'
-    bot.sendMessage(chat_id=query.message.chat.id, text=text)
 
 def open_trello(bot,update):
     query = update.callback_query
