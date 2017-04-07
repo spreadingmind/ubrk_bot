@@ -82,6 +82,8 @@ def second(bot, update):
 
     if option == '3':
         forth(bot,update)
+    if option == '4':
+        open_trello(bot, update)
 
     return
 
@@ -117,7 +119,9 @@ def forth(bot, update):
     bot.sendMessage(chat_id=query.message.chat.id, text=text)
 
 def open_trello(bot,update):
-    pass
+    query = update.callback_query
+    bot.sendMessage(chat_id=query.message.chat_id, text='https://trello.com/b/jFPgFoqm/ubrk-is-fun',
+                    parse_mode='HTML')
 
 def unassign(bot,job):
     format = "%a %b %d %H:%M:%S %Y"
@@ -136,9 +140,9 @@ def unassign(bot,job):
 
 def fri_reminder(bot, job):
     today = datetime.datetime.today().strftime("%a %b %d %H:%M:%S %Y")
-    if today.startswith('Fri'):
-        bot.sendMessage(text='Heya, it is almost weekends. Did you take your UBRK task? ;)',
-                    chat_id='-1001092676323')
+    # if today.startswith('Fri'):
+    #     bot.sendMessage(text='Heya, it is almost weekends. Did you take your UBRK task? ;)',
+    #                 chat_id='-1001092676323')
 
     if today.startswith('Sun'):
         bot.sendMessage(text='It is last day of the week to make our flat shiny. Rock this boat!',
