@@ -159,7 +159,7 @@ time = datetime.datetime.time(datetime.datetime.now())
 
 job_fri_reminder = Job(callback=fri_reminder, interval=100, repeat=True,days=(4,))
 
-j.put(job_fri_reminder, next_t=time)
+j.put(job_fri_reminder, next_t=10)
 
 def restart(bot, update):
     bot.sendMessage(update.message.chat_id, "Bot is restarting...Press /ubrk")
