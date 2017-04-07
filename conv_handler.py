@@ -1,4 +1,4 @@
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, \
     ConversationHandler, Job, JobQueue
 import constants
@@ -10,6 +10,7 @@ import time
 import sys
 import datetime
 import logging
+import telepot
 
 logger = logging.getLogger('ubrk_bot')
 logger.setLevel(logging.WARNING)
@@ -129,6 +130,10 @@ def unassign(bot,job):
             continue
 
 
+def fri_reminder(bot,job):
+    bot.sendMessage(text='heya, it is almost weekends. Did you took your task?',
+                    chat_id=job.context)
+
 
 updater = Updater(TELEGRAM_HTTP_API_TOKEN)
 
@@ -147,8 +152,13 @@ conv_handler = ConversationHandler(
 updater.dispatcher.add_handler(conv_handler)
 
 j = updater.job_queue
-job_minute = Job(callback=unassign, interval=0, days=(0,))
-j.put(job_minute, next_t=0.0)
+job_unassign = Job(callback=unassign, interval=0, days=(0,), repeat=True)
+j.put(job_unassign, next_t=0.0)
+job_fri_reminder = JobQueue(prevent_autostart=None)
+
+update = Update(update_id=1)
+
+job_fri_reminder.run_daily(fri_reminder, time=16, days=(4,), context=update.message.chat_id)
 
 
 def restart(bot, update):
