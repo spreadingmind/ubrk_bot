@@ -158,7 +158,7 @@ j.put(job_unassign, next_t=0.0)
 # update = Update(update_id=1)
 time = datetime.datetime.time(datetime.datetime.now())
 
-job_fri_reminder = Job(callback=fri_reminder, interval=0, repeat=True, days=(4,))
+job_fri_reminder = Job(callback=fri_reminder, interval=5000, repeat=True, days=(4,))
 
 j.put(job_fri_reminder, next_t=10)
 
