@@ -155,9 +155,11 @@ job_unassign = Job(callback=unassign, interval=0, days=(0,), repeat=True)
 j.put(job_unassign, next_t=0.0)
 
 # update = Update(update_id=1)
+time = datetime.datetime.time(datetime.datetime.now())
 
-# job_fri_reminder = JobQueue(callback=fri_reminder, interval=100, repeat=True)
-j.run_daily(fri_reminder, time=16, days=(4,), repeat=True)
+job_fri_reminder = Job(callback=fri_reminder, interval=100, repeat=True,days=(4,))
+
+j.put(job_fri_reminder, next_t=time)
 
 def restart(bot, update):
     bot.sendMessage(update.message.chat_id, "Bot is restarting...Press /ubrk")
