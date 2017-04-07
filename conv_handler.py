@@ -86,7 +86,7 @@ def second(bot, update):
     if option == '4':
         open_trello(bot, update)
     else:
-        first(bot, update)
+        sixth(bot, update)
 
 def third(bot,update):
     print ('third started')
