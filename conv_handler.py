@@ -129,7 +129,7 @@ def unassign(bot,job):
             continue
 
 
-def fri_reminder(bot, update, job):
+def fri_reminder(job,bot, update):
     bot.sendMessage(text='heya, it is almost weekends. Did you took your task?',
                     chat_id=update.message.chat_id)
 
