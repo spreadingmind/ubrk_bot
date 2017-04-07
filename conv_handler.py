@@ -123,17 +123,21 @@ def unassign(bot,job):
         if today.startswith('Thu'):
             api_trello.mass_unassign()
             print ('unassigned')
-            # bot.sendMessage(text='All tasks are unassigned!', chat_id=update.message.chat_id )
+            bot.sendMessage(text='All week tasks are unassigned! Ready for new one? ;)',chat_id='-1001092676323' )
             break
         else:
             continue
 
 
 def fri_reminder(bot, job):
-    bot.sendMessage(text='heya, it is almost weekends. Did you took your task?',
+    today = datetime.datetime.today().strftime("%a %b %d %H:%M:%S %Y")
+    if today.startswith('Fri'):
+        bot.sendMessage(text='Heya, it is almost weekends. Did you take your UBRK task? ;)',
                     chat_id='-1001092676323')
 
-
+    if today.startswith('Sun'):
+        bot.sendMessage(text='It is last day of the week to make our flat shiny. Rock this boat!',
+                        chat_id='-1001092676323')
 
 updater = Updater(TELEGRAM_HTTP_API_TOKEN)
 
@@ -158,7 +162,7 @@ j.put(job_unassign, next_t=0.0)
 # update = Update(update_id=1)
 time = datetime.datetime.time(datetime.datetime.now())
 
-job_fri_reminder = Job(callback=fri_reminder, interval=5000, repeat=True, days=(4,))
+job_fri_reminder = Job(callback=fri_reminder, interval=5000, repeat=True, days=(4,6))
 
 j.put(job_fri_reminder, next_t=10)
 
