@@ -5,6 +5,8 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 issues_on_board = api_trello.client.get_board\
     (board_id='58c675660114d45a75eb1ce4').get_list(list_id='58c677a83b683e05b47a3557')
 
+
+
 issues_list = api_trello.client.get_board\
     (board_id='58c675660114d45a75eb1ce4').get_list(list_id='58c677a83b683e05b47a3557')\
     .list_cards()

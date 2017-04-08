@@ -199,6 +199,9 @@ def restart(bot, update):
     time.sleep(0.2)
     os.execl(sys.executable, sys.executable, *sys.argv)
 
+logger.info("starting dispatcher")
+updater.dispatcher.add_handler(CommandHandler('r', restart))
+
 def add_issue(bot, update, args):
 
     issue_name = ' '.join(args)
@@ -206,16 +209,21 @@ def add_issue(bot, update, args):
         issues.issues_on_board.add_card(name=issue_name)
 
         print('issue added')
+        issues.get_issues_keyboard_list()
         issues.get_issues_keyboard()
     bot.sendMessage(chat_id=update.message.chat_id, text=emojize('Issue added to list. Cool :clap:', use_aliases=True))
 
-caps_handler = CommandHandler('issue', add_issue, pass_args=True)
-dispatcher = updater.dispatcher
-dispatcher.add_handler(caps_handler)
+issue_handler = CommandHandler('issue', add_issue, pass_args=True)
+updater.dispatcher.add_handler(issue_handler)
+
+# def delete_issue(bot, update, args):
+#     issue_to_del = ' '.join(args)
+#     if issue_to_del is not None:
+#         issues.issues_on_board.
 
 
-logger.info("starting dispatcher")
-updater.dispatcher.add_handler(CommandHandler('r', restart))
+
+
 
 updater.start_webhook(listen='0.0.0.0', port=PORT, url_path=TELEGRAM_HTTP_API_TOKEN)
 updater.bot.setWebhook('https://ubrk.herokuapp.com/' + TELEGRAM_HTTP_API_TOKEN)
