@@ -209,9 +209,11 @@ def add_issue(bot, update, args):
         issues.issues_on_board.add_card(name=issue_name)
 
         print('issue added')
-        issues.get_issues_keyboard_list()
-        issues.get_issues_keyboard()
-        bot.sendMessage(chat_id=update.message.chat_id, text=emojize('Issue added to list. Cool :clap:', use_aliases=True))
+        reply_markup = InlineKeyboardMarkup(issues.get_issues_keyboard())
+        bot.sendMessage(chat_id=update.message.chat_id,
+                        text=emojize('Issue added to list. Cool :clap:', use_aliases=True),
+                        reply_markup=reply_markup)
+    return SIXTH
 
 issue_handler = CommandHandler('issue', add_issue, pass_args=True)
 updater.dispatcher.add_handler(issue_handler)
@@ -220,13 +222,17 @@ def delete_issue(bot, update, args):
     issue_to_del = ' '.join(args)
     if issue_to_del is not None:
         for card in issues.issues_list:
+            print (card.name)
             if card.name == issue_to_del:
 
                 card.delete()
                 bot.sendMessage(chat_id=update.message.chat_id, text=emojize('Issue removed Great job! :wink:', use_aliases=True))
-        issues.get_issues_keyboard_list()
+    reply_markup = InlineKeyboardMarkup(issues.get_issues_keyboard())
+    bot.sendMessage(chat_id=update.message.chat_id,
+                    text='See other issues: ',
+                    reply_markup=reply_markup)
 
-issue_to_del_handler = CommandHandler('delissue',delete_issue, pass_args=True)
+issue_to_del_handler = CommandHandler('delissue', delete_issue, pass_args=True)
 updater.dispatcher.add_handler(issue_to_del_handler)
 
 
