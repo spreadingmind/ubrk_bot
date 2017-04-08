@@ -36,7 +36,7 @@ def start(bot, update):
         'Welcome to UBRK bot!',
         reply_markup=reply_markup
     )
-    telegram_id = update.message.from_user.id
+
     return FIRST
 
 
@@ -110,11 +110,10 @@ def third(bot,update):
 
 
     # return FIRST
-
 def forth(bot, update):
     query = update.callback_query
     reply_markup = InlineKeyboardMarkup(issues.get_issues_keyboard())
-    text = emojize(':fire: Issues! No code reqiured :v: ', use_aliases=True)
+    text = emojize(':fire: Issues! No code reqiured(probably) :v: ', use_aliases=True)
     bot.sendMessage(chat_id=query.message.chat.id, text=text, reply_markup=reply_markup)
     return SIXTH
 
@@ -149,7 +148,7 @@ def unassign(bot,job):
     while True:
         today = datetime.datetime.today().strftime(format)
         print ('Today is ', today)
-        if today.startswith('Thu'):
+        if today.startswith('Mon') and today.split()[3].startswith('1') :
             api_trello.mass_unassign()
             print ('unassigned')
             bot.sendMessage(text='All week tasks are unassigned! Ready for new one? ;)',chat_id='-1001092676323' )
@@ -160,11 +159,11 @@ def unassign(bot,job):
 
 def fri_reminder(bot, job):
     today = datetime.datetime.today().strftime("%a %b %d %H:%M:%S %Y")
-    # if today.startswith('Fri'):
-    #     text = emojize('Heya! It is almost weekends :eyes: Did you take your UBRK task? ;)', use_aliases=True)
-    #     bot.sendMessage(text=text, chat_id='-1001092676323')
+    if today.startswith('Fri') and today.split()[3].startswith('1'):
+        text = emojize('Heya! It is almost weekends :eyes: Did you take your UBRK task? ;)', use_aliases=True)
+        bot.sendMessage(text=text, chat_id='-1001092676323')
 
-    if today.startswith('Sun'):
+    if today.startswith('Sun') and today.split()[3].startswith('1'):
         text = emojize('It is last day of the week to make our flat shiny. Rock this boat! :sunglasses:',use_aliases=True)
         bot.sendMessage(text=text,chat_id='-1001092676323')
 
@@ -187,11 +186,11 @@ conv_handler = ConversationHandler(
 updater.dispatcher.add_handler(conv_handler)
 
 j = updater.job_queue
-job_unassign = Job(callback=unassign, interval=0, days=(0,), repeat=True)
+job_unassign = Job(callback=unassign, interval=40000, days=(0,), repeat=True)
 j.put(job_unassign, next_t=0.0)
 
 
-job_fri_reminder = Job(callback=fri_reminder, interval=5000, repeat=True, days=(4,6))
+job_fri_reminder = Job(callback=fri_reminder, interval=40000, repeat=True, days=(4,6))
 
 j.put(job_fri_reminder, next_t=10)
 
@@ -200,6 +199,18 @@ def restart(bot, update):
     time.sleep(0.2)
     os.execl(sys.executable, sys.executable, *sys.argv)
 
+def add_issue(bot, update, args):
+
+    issue_name = ''.join(args)
+    if issue_name is not None:
+        issues.issues_on_board.add_card(name=issue_name)
+        print('issue added')
+        issues.get_issues_keyboard()
+    bot.sendMessage(chat_id=update.message.chat_id, text=emojize('Issue added to list. Cool :clap:', use_aliases=True))
+
+caps_handler = CommandHandler('issue', add_issue, pass_args=True)
+dispatcher = updater.dispatcher
+dispatcher.add_handler(caps_handler)
 
 
 logger.info("starting dispatcher")
