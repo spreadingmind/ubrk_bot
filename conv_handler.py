@@ -205,7 +205,7 @@ updater.dispatcher.add_handler(CommandHandler('r', restart))
 def add_issue(bot, update, args):
 
     issue_name = ' '.join(args)
-    if issue_name is not None:
+    if len(issue_name) > 0:
         issues.issues_on_board.add_card(name=issue_name)
 
         print('issue added')
@@ -213,7 +213,9 @@ def add_issue(bot, update, args):
         bot.sendMessage(chat_id=update.message.chat_id,
                         text=emojize('Issue added to list. Cool :clap:', use_aliases=True),
                         reply_markup=reply_markup)
-    return SIXTH
+    else:
+        bot.sendMessage(chat_id=update.message.chat_id, text='Issue name should be non-empty!')
+    return FORTH
 
 issue_handler = CommandHandler('issue', add_issue, pass_args=True)
 updater.dispatcher.add_handler(issue_handler)
