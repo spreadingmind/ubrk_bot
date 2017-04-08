@@ -215,7 +215,7 @@ def add_issue(bot, update, args):
                         reply_markup=reply_markup)
     else:
         bot.sendMessage(chat_id=update.message.chat_id, text='Issue name should be non-empty!')
-    return FORTH
+    return
 
 issue_handler = CommandHandler('issue', add_issue, pass_args=True)
 updater.dispatcher.add_handler(issue_handler)
@@ -233,6 +233,7 @@ def delete_issue(bot, update, args):
     bot.sendMessage(chat_id=update.message.chat_id,
                     text='See other issues: ',
                     reply_markup=reply_markup)
+    return
 
 issue_to_del_handler = CommandHandler('delissue', delete_issue, pass_args=True)
 updater.dispatcher.add_handler(issue_to_del_handler)
