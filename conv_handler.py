@@ -201,9 +201,10 @@ def restart(bot, update):
 
 def add_issue(bot, update, args):
 
-    issue_name = ''.join(args)
+    issue_name = ' '.join(args)
     if issue_name is not None:
         issues.issues_on_board.add_card(name=issue_name)
+
         print('issue added')
         issues.get_issues_keyboard()
     bot.sendMessage(chat_id=update.message.chat_id, text=emojize('Issue added to list. Cool :clap:', use_aliases=True))
