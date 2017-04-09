@@ -186,11 +186,11 @@ conv_handler = ConversationHandler(
 updater.dispatcher.add_handler(conv_handler)
 
 j = updater.job_queue
-job_unassign = Job(callback=unassign, interval=40000, days=(0,), repeat=True)
+job_unassign = Job(callback=unassign, interval=80000, days=(0,), repeat=True)
 j.put(job_unassign, next_t=0.0)
 
 
-job_fri_reminder = Job(callback=fri_reminder, interval=40000, repeat=True, days=(4,6))
+job_fri_reminder = Job(callback=fri_reminder, interval=80000, repeat=True, days=(4,6))
 
 j.put(job_fri_reminder, next_t=10)
 
