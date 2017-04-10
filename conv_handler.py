@@ -107,9 +107,8 @@ def third(bot,update):
         reply_markup=reply_markup,
         text=text
     )
+    return FIRST
 
-
-    # return FIRST
 def forth(bot, update):
     query = update.callback_query
     reply_markup = InlineKeyboardMarkup(issues.get_issues_keyboard())
@@ -155,6 +154,7 @@ def unassign(bot,job):
             break
         else:
             continue
+    return FIRST
 
 
 def fri_reminder(bot, job):
@@ -169,28 +169,12 @@ def fri_reminder(bot, job):
 
 updater = Updater(TELEGRAM_HTTP_API_TOKEN)
 
-conv_handler = ConversationHandler(
-    entry_points=[CommandHandler('ubrk', start)],
-    states={
-        FIRST: [CallbackQueryHandler(first)],
-        SECOND: [CallbackQueryHandler(second)],
-        THIRD: [CallbackQueryHandler(third)],
-        FORTH: [CallbackQueryHandler(forth)],
-        FIFTH:[CallbackQueryHandler(open_trello)],
-        SIXTH: [CallbackQueryHandler(sixth)]
-
-    },
-    fallbacks=[CommandHandler('ubrk', start)]
-)
-
-updater.dispatcher.add_handler(conv_handler)
-
 j = updater.job_queue
-job_unassign = Job(callback=unassign, interval=None, days=(0,), repeat=True)
+job_unassign = Job(callback=unassign, interval=None, days=(0,)) #repeat=True)
 j.put(job_unassign, next_t=0.0)
 
 
-job_fri_reminder = Job(callback=fri_reminder, interval=None, repeat=True, days=(4,6))
+job_fri_reminder = Job(callback=fri_reminder, interval=None,days=(4,6)) #repeat=True
 
 j.put(job_fri_reminder, next_t=10)
 
@@ -219,6 +203,7 @@ def add_issue(bot, update, args):
     bot.sendMessage(chat_id=update.message.chat_id,
                     text='See other issues: ',
                     reply_markup=reply_markup)
+    return FORTH
 
 issue_handler = CommandHandler('issue', add_issue, pass_args=True)
 updater.dispatcher.add_handler(issue_handler)
@@ -239,14 +224,26 @@ def delete_issue(bot, update, args):
     bot.sendMessage(chat_id=update.message.chat_id,
                     text='See other issues: ',
                     reply_markup=reply_markup)
-
+    return FORTH
 
 issue_to_del_handler = CommandHandler('delissue', delete_issue, pass_args=True)
 updater.dispatcher.add_handler(issue_to_del_handler)
 
+conv_handler = ConversationHandler(
+    entry_points=[CommandHandler('ubrk', start)],
+    states={
+        FIRST: [CallbackQueryHandler(first)],
+        SECOND: [CallbackQueryHandler(second)],
+        THIRD: [CallbackQueryHandler(third)],
+        FORTH: [CallbackQueryHandler(forth)],
+        FIFTH:[CallbackQueryHandler(open_trello)],
+        SIXTH: [CallbackQueryHandler(sixth)]
 
+    },
+    fallbacks=[CommandHandler('ubrk', start)]
+)
 
-
+updater.dispatcher.add_handler(conv_handler)
 updater.start_webhook(listen='0.0.0.0', port=PORT, url_path=TELEGRAM_HTTP_API_TOKEN)
 updater.bot.setWebhook('https://ubrk.herokuapp.com/' + TELEGRAM_HTTP_API_TOKEN)
 updater.idle()
