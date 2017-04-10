@@ -193,10 +193,9 @@ def add_issue(bot, update, args):
         issues.get_issue_list_on_board().add_card(name=issue_name)
 
         print('issue added')
-        reply_markup = InlineKeyboardMarkup(issues.get_issues_keyboard())
         bot.sendMessage(chat_id=update.message.chat_id,
-                        text=emojize('Issue added to list. Cool :clap:', use_aliases=True),
-                        reply_markup=reply_markup)
+                        text=emojize('Issue added to list. Cool :clap:', use_aliases=True)
+                        )
     else:
         bot.sendMessage(chat_id=update.message.chat_id, text='Issue name should be non-empty!')
     reply_markup = InlineKeyboardMarkup(issues.get_issues_keyboard())
@@ -218,8 +217,8 @@ def delete_issue(bot, update, args):
                 card.delete()
                 bot.sendMessage(chat_id=update.message.chat_id, text=emojize('Issue removed Great job! :wink:', use_aliases=True))
 
-            else:
-                bot.sendMessage(chat_id=update.message.chat_id, text='Issue name should be non-empty!')
+    else:
+        bot.sendMessage(chat_id=update.message.chat_id, text='Issue name should be non-empty!')
     reply_markup = InlineKeyboardMarkup(issues.get_issues_keyboard())
     bot.sendMessage(chat_id=update.message.chat_id,
                     text='See other issues: ',
