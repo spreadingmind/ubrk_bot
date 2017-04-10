@@ -190,7 +190,7 @@ def add_issue(bot, update, args):
 
     issue_name = ' '.join(args)
     if len(issue_name) > 0:
-        issues.issues_on_board.add_card(name=issue_name)
+        issues.get_issue_list_on_board().add_card(name=issue_name)
 
         print('issue added')
         reply_markup = InlineKeyboardMarkup(issues.get_issues_keyboard())
@@ -211,7 +211,7 @@ updater.dispatcher.add_handler(issue_handler)
 def delete_issue(bot, update, args):
     issue_to_del = ' '.join(args)
     if len(issue_to_del) > 0:
-        for card in issues.issues_list:
+        for card in issues.get_issues_list():
             print (card.name)
             if card.name == issue_to_del:
 
