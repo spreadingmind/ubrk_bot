@@ -186,11 +186,11 @@ conv_handler = ConversationHandler(
 updater.dispatcher.add_handler(conv_handler)
 
 j = updater.job_queue
-job_unassign = Job(callback=unassign, interval=80000, days=(0,), repeat=True)
+job_unassign = Job(callback=unassign, interval=None, days=(0,), repeat=True)
 j.put(job_unassign, next_t=0.0)
 
 
-job_fri_reminder = Job(callback=fri_reminder, interval=80000, repeat=True, days=(4,6))
+job_fri_reminder = Job(callback=fri_reminder, interval=None, repeat=True, days=(4,6))
 
 j.put(job_fri_reminder, next_t=10)
 
@@ -215,20 +215,26 @@ def add_issue(bot, update, args):
                         reply_markup=reply_markup)
     else:
         bot.sendMessage(chat_id=update.message.chat_id, text='Issue name should be non-empty!')
-
+    reply_markup = InlineKeyboardMarkup(issues.get_issues_keyboard())
+    bot.sendMessage(chat_id=update.message.chat_id,
+                    text='See other issues: ',
+                    reply_markup=reply_markup)
 
 issue_handler = CommandHandler('issue', add_issue, pass_args=True)
 updater.dispatcher.add_handler(issue_handler)
 
 def delete_issue(bot, update, args):
     issue_to_del = ' '.join(args)
-    if issue_to_del is not None:
+    if len(issue_to_del) > 0:
         for card in issues.issues_list:
             print (card.name)
             if card.name == issue_to_del:
 
                 card.delete()
                 bot.sendMessage(chat_id=update.message.chat_id, text=emojize('Issue removed Great job! :wink:', use_aliases=True))
+
+            else:
+                bot.sendMessage(chat_id=update.message.chat_id, text='Issue name should be non-empty!')
     reply_markup = InlineKeyboardMarkup(issues.get_issues_keyboard())
     bot.sendMessage(chat_id=update.message.chat_id,
                     text='See other issues: ',
