@@ -215,7 +215,7 @@ def delete_issue(bot, update, args):
             if card.name == issue_to_del:
 
                 card.delete()
-                bot.sendMessage(chat_id=update.message.chat_id, text=emojize('Issue removed Great job! :wink:', use_aliases=True))
+                bot.sendMessage(chat_id=update.message.chat_id, text=emojize('Issue removed. Great job! :wink:', use_aliases=True))
 
     else:
         bot.sendMessage(chat_id=update.message.chat_id, text='Issue name should be non-empty!')

@@ -46,6 +46,7 @@ def assigne_issue_from_telegram(card_name, id):
                 member_id = from_telegram_to_trello_ids[id]
                 card.assign(member_id=member_id)
         print ('for done')
+        member_id = from_telegram_to_trello_ids[id]
         get_assidned_issues()[card_name] = api_trello.board_members[member_id]
         print ('card assigned')
     except ResourceUnavailable:
