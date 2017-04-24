@@ -31,7 +31,7 @@ def get_issues_keyboard_list():
 def get_issues_keyboard():
 
     take_duty_keybrd = [[InlineKeyboardButton
-                    ('%s : %s ' % (item[0],item[1]),callback_data='%s'% item[0])]
+                    ('%s : %s ' % (item[0][:20],item[1]),callback_data='%s'% item[0])]
                     for item in get_issues_keyboard_list()]
     return take_duty_keybrd
 
