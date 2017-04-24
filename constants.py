@@ -2,8 +2,13 @@
 
 api_key = 'd63b54d50702f5668028c3cfe57af002'
 api_secret = '50ced50039855e91c79a5a13f37448b5e0c91721b9d492c4c6de9454d42f310e'
+<<<<<<< HEAD
 oauth_token  = 'd79c14c7909eb80df3a396f7ad6037d18a08148d44e0cab60ac41a0d100748f6'
 oauth_token_secret = '1b938cc715f7fa66dbaecfccd45100e9'
+=======
+oauth_token  = 'd509ea1db40a3a735363022d7734ea85c235b5062bee6fc381c1e2c4b4ed8bfa'
+oauth_token_secret = 'dfb4a66da2720ea32823e9054fb5908c'
+>>>>>>> parent of bda6eab... Delete constants.py
 
 '''
 My Boards IDs:
