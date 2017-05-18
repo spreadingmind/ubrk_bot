@@ -212,8 +212,7 @@ def delete_issue(bot, update, args):
     if len(issue_to_del) > 0:
         for card in issues.get_issues_list():
             print (card.name)
-            if card.name == issue_to_del:
-
+            if card.name.startswith(issue_to_del):
                 card.delete()
                 bot.sendMessage(chat_id=update.message.chat_id, text=emojize('Issue removed. Great job! :wink:', use_aliases=True))
 
